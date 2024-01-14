@@ -2,6 +2,12 @@
 requires = ["flit_core>=2,<4"]
 build-backend = "flit_core.buildapi"
 
+[tool.poetry]
+name = "fastapi_jwt_auth"
+version = "0.1.0"
+description = "Fast api + JWT"
+authors = ["The lads"]
+
 [tool.flit.metadata]
 module = "fastapi_jwt_auth"
 dist-name = "fastapi-jwt-auth"
