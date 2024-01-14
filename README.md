@@ -2,40 +2,51 @@
   FastAPI JWT Auth
 </h1>
 
-![Tests](https://github.com/IndominusByte/fastapi-jwt-auth/workflows/Tests/badge.svg)
-[![Coverage Status](https://coveralls.io/repos/github/IndominusByte/fastapi-jwt-auth/badge.svg?branch=master)](https://coveralls.io/github/IndominusByte/fastapi-jwt-auth?branch=master)
-[![PyPI version](https://badge.fury.io/py/fastapi-jwt-auth.svg)](https://badge.fury.io/py/fastapi-jwt-auth)
-[![Downloads](https://static.pepy.tech/personalized-badge/fastapi-jwt-auth?period=total&units=international_system&left_color=grey&right_color=brightgreen&left_text=Downloads)](https://pepy.tech/project/fastapi-jwt-auth)
 
----
+1. Copy environment configuration and update config  
+    ```sh
+    cp example.env .env
+    ```
+   
+1. Install the requirements:
 
-**Documentation**: <a href="https://indominusbyte.github.io/fastapi-jwt-auth" target="_blank">https://indominusbyte.github.io/fastapi-jwt-auth</a>
+    ```sh
+    poetry install -v
+    ```
 
-**Source Code**: <a href="https://github.com/IndominusByte/fastapi-jwt-auth" target="_blank">https://github.com/IndominusByte/fastapi-jwt-auth</a>
+1. Init python environment:
+    ```sh
+    poetry shell
+    ```
 
----
+1. Run the app:
 
-## Features
-FastAPI extension that provides JWT Auth support (secure, easy to use and lightweight), if you were familiar with flask-jwt-extended this extension suitable for you, cause this extension inspired by flask-jwt-extended 😀
+    ```sh
+    python main.py
+    ```
 
-- Access tokens and refresh tokens
-- Freshness Tokens
-- Revoking Tokens
-- Support for WebSocket authorization
-- Support for adding custom claims to JSON Web Tokens
-- Storing tokens in cookies and CSRF protection
+1. Test at [http://localhost:8080/docs](http://localhost:8080/docs)
 
-## Installation
-The easiest way to start working with this extension with pip
+1. Get bearer token by logging in with expected client configuration:
 
-```bash
-pip install fastapi-jwt-auth
-```
+    ```sh
+    curl -X 'POST' \
+     'http://localhost:8080/client/login' \
+     -H 'accept: application/json' \
+     -H 'Content-Type: application/json' \
+     -d '{"team_name": "ateam", "client_id": "123456789", "client_secret": "weaksecret"}'
+    ```
+1. Use the bearer token returned from the last step to authenticate with protected endpoints.
 
-If you want to use asymmetric (public/private) key signing algorithms, include the <b>asymmetric</b> extra requirements.
-```bash
-pip install 'fastapi-jwt-auth[asymmetric]'
-```
-
-## License
-This project is licensed under the terms of the MIT license.
+   ```sh
+   curl -X 'POST' \
+     'http://localhost:8080/posts' \
+     -H 'accept: application/json' \
+     -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjbGllbnRfaWQiOiIxMjM0NTY3ODkiLCJleHBpcmVzIjoxNzA1MjU3MDAyLjEyMjIxNDh9.MwOF8WhIwSbiiqVZ_q6J-HHZbyUavx1Di-I7_CtT-vQ' \
+     -H 'Content-Type: application/json' \
+     -d '{
+     "id": 0,
+     "title": "string",
+     "content": "string"
+   }'
+   ```
